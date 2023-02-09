@@ -1,3 +1,20 @@
 http://localhost:4000/students?_page=1&_limit=5
 
 https://www.youtube.com/watch?v=EvQtsxwzMXg&list=PLFfVmM19UNqlY843Jy_XzjKvPiHtUufhE
+
+b1: Cài react-query
++ yarn add react-query
+
+- Trong file index.tsx
+
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+
+// Create a client
+ const queryClient = new QueryClient()

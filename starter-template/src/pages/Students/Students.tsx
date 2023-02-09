@@ -4,19 +4,26 @@ import { Link } from 'react-router-dom'
 import { Students as StudentsType } from 'types/students.types'
 
 export default function Students() {
+  // c1
+
   const [students, setStudents] = useState<StudentsType>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
   useEffect(() => {
+    setIsLoading(true)
     getStudents(1, 5).then(res => {
       setStudents(res.data)
+    }).finally(() => {
+      setIsLoading(false)
     })
   }, [])
 
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
-      {/* <div role='status' className='mt-6 animate-pulse'>
+      { isLoading && (
+        <div role='status' className='mt-6 animate-pulse'>
         <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
         <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
         <div className='mb-2.5 h-10 rounded bg-gray-200 dark:bg-gray-700' />
@@ -31,7 +38,8 @@ export default function Students() {
         <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
         <div className='h-10  rounded bg-gray-200 dark:bg-gray-700' />
         <span className='sr-only'>Loading...</span>
-      </div> */}
+      </div>
+      )}
       <div className='relative mt-6 overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
           <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
