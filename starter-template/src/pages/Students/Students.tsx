@@ -1,23 +1,38 @@
 import { getStudents } from 'apis/students.api'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Students as StudentsType } from 'types/students.types'
+import { Students as StudentsType } from 'types/students.types';
+import { useQuery } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
+import { useQueryString } from 'utils/getParamsObject';
 
 export default function Students() {
   // c1
 
-  const [students, setStudents] = useState<StudentsType>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  // const [students, setStudents] = useState<StudentsType>([])
+  // const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
-  useEffect(() => {
-    setIsLoading(true)
-    getStudents(1, 5).then(res => {
-      setStudents(res.data)
-    }).finally(() => {
-      setIsLoading(false)
-    })
-  }, [])
+  // useEffect(() => {
+  //   setIsLoading(true)
+  //   getStudents(1, 5).then(res => {
+  //     setStudents(res.data)
+  //   }).finally(() => {
+  //     setIsLoading(false)
+  //   })
+  // }, [])
+
+  // c2: 
+
+  const queryString: any = useQueryString()
+  const page = Number(queryString.page) || 1
+
+  const {data, isLoading} = useQuery({
+    queryKey: ['students', page],
+    queryFn: () => getStudents(page, 10)
+  })
+
+  // console.log('result', result)
 
   return (
     <div>
@@ -62,7 +77,7 @@ export default function Students() {
             </tr>
           </thead>
           <tbody>
-            {students.map((item) => (
+            {data?.data.map((item) => (
               <tr key={item.id} className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'>
               <td className='py-4 px-6'>{item.id}</td>
               <td className='py-4 px-6'>
