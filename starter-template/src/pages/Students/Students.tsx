@@ -32,8 +32,6 @@ export default function Students() {
     queryFn: () => getStudents(page, 10)
   })
 
-  // console.log('result', result)
-
   return (
     <div>
       <h1 className='text-lg'>Students</h1>

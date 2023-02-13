@@ -5,6 +5,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import {
   useQuery,
   useMutation,
@@ -22,6 +24,7 @@ root.render(
     <BrowserRouter>
     <QueryClientProvider client={queryClient}>
       <App />
+      <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
