@@ -6,6 +6,10 @@ import { useQuery } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 import { useQueryString } from 'utils/getParamsObject';
 
+import classNames from 'classnames';
+
+const LIMIT = 10
+
 export default function Students() {
   // c1
 
@@ -24,25 +28,30 @@ export default function Students() {
 
   // c2: 
 
-  // const queryString: any = useQueryString()
-  // const page = Number(queryString.page) || 1
-  
-
-  // const {data, isLoading} = useQuery({
-  //   queryKey: ['students', page],
-  //   queryFn: () => getStudents(page, 10)
-  // })
-
-  // 3: 
-
   const queryString: any = useQueryString()
-  const [_page] = useState(1)
+  const page = Number(queryString.page) || 1
+
+  console.log('queryString', queryString)
   
 
   const {data, isLoading} = useQuery({
-    queryKey: ['students', _page],
-    queryFn: () => getStudents(_page, 10)
+    queryKey: ['students', page],
+    queryFn: () => getStudents(page, LIMIT)
   })
+
+  const totalStudents = Number(data?.headers['x-total-count']) || 0
+  const totalPage = Math.ceil( totalStudents / LIMIT)
+
+  // 3: 
+
+  // const queryString: any = useQueryString()
+  // const [_page] = useState(1)
+  
+
+  // const {data, isLoading} = useQuery({
+  //   queryKey: ['students', _page],
+  //   queryFn: () => getStudents(_page, 10)
+  // })
 
 
   return (
@@ -122,14 +131,21 @@ export default function Students() {
                 Previous
               </span>
             </li>
-            <li>
-              <a
-                className='border border-gray-300 bg-white bg-white py-2 px-3 leading-tight text-gray-500 text-gray-500  hover:bg-gray-100 hover:bg-gray-100 hover:text-gray-700 hover:text-gray-700'
-                href='/students?page=8'
-              >
-                1
-              </a>
-            </li>
+            {Array(totalPage).fill(0).map((_, index) => {
+              return (
+                <li key={index}>
+                <Link
+                  // className='border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                  className={classNames('border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700', {
+                    'testActive' : (page === index + 1),
+                  })}
+                  to={`/students?page=${index + 1}`}
+                >
+                  {index + 1}
+                </Link>
+              </li>
+              )
+            })}
             <li>
               <a
                 className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
