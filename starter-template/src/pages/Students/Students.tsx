@@ -126,11 +126,21 @@ export default function Students() {
       <div className='mt-6 flex justify-center'>
         <nav aria-label='Page navigation example'>
           <ul className='inline-flex -space-x-px'>
-            <li>
-              <span className='cursor-not-allowed rounded-l-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
-                Previous
-              </span>
+          <li>
+            {page === 1 ? (
+                <span className='cursor-not-allowed rounded-l-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 '>
+                  Previous
+                </span>
+              ) : (
+                <Link
+                  className='rounded-l-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 '
+                  to={`/students?page=${page - 1}`}
+                >
+                  Previous
+                </Link>
+              )}
             </li>
+
             {Array(totalPage).fill(0).map((_, index) => {
               return (
                 <li key={index}>
@@ -147,13 +157,20 @@ export default function Students() {
               )
             })}
             <li>
-              <a
-                className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-                href='/students?page=1'
-              >
-                Next
-              </a>
+              {page === totalPage ? (
+                <span className='cursor-not-allowed rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 '>
+                  Next
+                </span>
+              ) : (
+                <Link
+                  className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 '
+                  to={`/students?page=${page + 1}`}
+                >
+                  Next
+                </Link>
+              )}
             </li>
+
           </ul>
         </nav>
       </div>
