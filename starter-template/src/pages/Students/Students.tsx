@@ -24,13 +24,26 @@ export default function Students() {
 
   // c2: 
 
+  // const queryString: any = useQueryString()
+  // const page = Number(queryString.page) || 1
+  
+
+  // const {data, isLoading} = useQuery({
+  //   queryKey: ['students', page],
+  //   queryFn: () => getStudents(page, 10)
+  // })
+
+  // 3: 
+
   const queryString: any = useQueryString()
-  const page = Number(queryString.page) || 1
+  const [_page] = useState(1)
+  
 
   const {data, isLoading} = useQuery({
-    queryKey: ['students', page],
-    queryFn: () => getStudents(page, 10)
+    queryKey: ['students', _page],
+    queryFn: () => getStudents(_page, 10)
   })
+
 
   return (
     <div>
