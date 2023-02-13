@@ -34,13 +34,18 @@ export default function Students() {
   console.log('queryString', queryString)
   
 
-  const {data, isLoading} = useQuery({
+  const {data, isLoading, isFetching} = useQuery({
     queryKey: ['students', page],
-    queryFn: () => getStudents(page, LIMIT)
+    queryFn: () => getStudents(page, LIMIT),
+    // Thời gian data cũ ( sẽ gọi lại api)
+    staleTime: 60 * 1000
   })
 
   const totalStudents = Number(data?.headers['x-total-count']) || 0
   const totalPage = Math.ceil( totalStudents / LIMIT)
+
+  console.log('isLoading', isLoading)
+  console.log('isFetching', isFetching)
 
   // 3: 
 
@@ -146,7 +151,7 @@ export default function Students() {
                 <li key={index}>
                 <Link
                   // className='border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-                  className={classNames('border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700', {
+                  className={classNames('border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-+gray-100 hover:text-gray-700', {
                     'testActive' : (page === index + 1),
                   })}
                   to={`/students?page=${index + 1}`}
@@ -163,7 +168,7 @@ export default function Students() {
                 </span>
               ) : (
                 <Link
-                  className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 '
+                  className='rounded-r-lg border border-gray-300 bg-white py-2 px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700'
                   to={`/students?page=${page + 1}`}
                 >
                   Next
