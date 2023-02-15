@@ -1,7 +1,36 @@
+import { useMatch } from "react-router-dom"
+import { useMutation } from "react-query"
+import http from "utils/http";
+import { addStudent } from "apis/students.api";
+import { Student } from "types/students.types";
+import { useState } from "react";
+
+
+type FormState = Omit<Student, 'id'>
+const initState: FormState = {
+  avatar: '',
+  email: '',
+  btc_address: '',
+  country: '',
+  first_name: '',
+  gender: '',
+  last_name: ''
+}
+
 export default function AddStudent() {
+  const [formState, setFormState] = useState<FormState>(initState)
+
+  const addMatch = useMatch('/students/add')
+  const isAddMode = Boolean(addMatch);
+
+  const { mutate } = useMutation({mutationFn: (body: FormState) => {
+    // handle data here 
+    return addStudent(body)
+  }})
+
   return (
     <div>
-      <h1 className='text-lg'>Add/Edit Student</h1>
+      <h1 className='text-lg'>{isAddMode ? 'Add' : 'Edit'} Student</h1>
       <form className='mt-6'>
         <div className='group relative z-0 mb-6 w-full'>
           <input
