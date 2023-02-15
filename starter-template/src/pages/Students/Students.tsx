@@ -37,8 +37,7 @@ export default function Students() {
   const {data, isLoading, isFetching} = useQuery({
     queryKey: ['students', page],
     queryFn: () => getStudents(page, LIMIT),
-    // Thời gian data cũ ( sẽ gọi lại api)
-    staleTime: 60 * 1000
+    keepPreviousData: true
   })
 
   const totalStudents = Number(data?.headers['x-total-count']) || 0
